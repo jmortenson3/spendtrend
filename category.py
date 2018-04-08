@@ -40,7 +40,7 @@ class Category(object):
             'STEAMGAMES.COM'
         ]
         self.SHOPPING = [
-            'KOHL\'s',
+            'KOHL',
             'WM SUPERCENTER',
             'OLD NAVY',
             'SHUTTERFLY',
@@ -51,11 +51,23 @@ class Category(object):
             'SHOE DEPT ENCORE',
             'MASSDROP',
             'FARM & FLT',
-            'MENARDS'
+            'MENARDS',
+            'PAYLESS SHOES',
+            'GAMES BY JAMES',
+            'EVES ADDICTION'
+        ]
+        self.HOMEOWNERS_INSURANCE = [
+          'Esurance',
+          'ESURANCE'
+        ]
+        self.TAXES = [
+          'TAX PRODUCTS',
+          'WI DEPT REVENUE'
         ]
         self.GAS_STATIONS = [
             'CENEX EXPRESS',
             'KWIK TRIP',
+            'KWIK STAR',
             'HOLIDAY STNSTORE'
         ]
         self.PHONE = [
@@ -86,7 +98,11 @@ class Category(object):
         ]
         self.CAR_PAYMENTS = [
             'BankoftheWest',
-            'Transfer TO : XXXX0146'
+            'Transfer TO : XXXX0146',
+            '0146'
+        ]
+        self.TRANSFERS = [
+            'Transfer TO : XXXX3763'
         ]
         self.UTILITIES = [
             'PSN*CITY OF CHIP'
@@ -99,7 +115,7 @@ class Category(object):
             'TOPPERS PIZZA',
             'SUBWAY',
             'CHIPOTLE',
-            'MCDONALD\'s',
+            'MCDONALD\'S',
             'JADE GARDEN',
             'KFC',
             'RED LOBSTER',
@@ -125,7 +141,7 @@ class Category(object):
             'PROG UNIVERSAL'
         ]
         self.GROCERIES = [
-            'GORDY\'s',
+            'GORDY\'S',
             'TARGET',
             'HY VEE',
             'FESTIVAL FOODS'
@@ -134,6 +150,6 @@ class Category(object):
             'SPORT CLIPS'
         ]
         self.INTERNET = [
-            'CHARTER COMMUNIC'
+            'CHARTER COMM'
         ]
 class_instance = Category()
