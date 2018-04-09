@@ -81,10 +81,13 @@ def main():
             col_category.append('uncategorized')
     
     df['Category'] = col_category
-
-    df.to_csv('./data/output.csv', columns=['Desc', 'Category', 'Amount Debit', 'Amount Credit'])
-
-
+    df['Amount Credit'].fillna(0, inplace=True)
+    df['Amount Debit'].fillna(0, inplace=True)
+    #df['Amount'] = df['Amount Credit'] if df['Amount Debit'].empty else df['Amount Credit']
+    df['Amount'] = df['Amount Credit'] + df['Amount Debit']
+    print(df.groupby(['Category'])[['Amount']].apply(lambda x: np.sum(x)))
+    #print(df[['Amount']].apply(lambda x: np.mean(x)))
+    
 
 if __name__ == '__main__':
     main()
