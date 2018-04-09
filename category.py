@@ -1,7 +1,7 @@
 
 class Category(object):
     def __init__(self):
-        
+
         self.GARBAGE = [
             'WASTE MANAGEMENT'
         ]
@@ -68,7 +68,8 @@ class Category(object):
             'CENEX EXPRESS',
             'KWIK TRIP',
             'KWIK STAR',
-            'HOLIDAY STNSTORE'
+            'HOLIDAY STNSTORE',
+            'EXPRESS MART'
         ]
         self.PHONE = [
             'ATT'
@@ -111,6 +112,7 @@ class Category(object):
             'NOODLES & COMPANY',
             'CHIPPEWA FAMILY RESTAUR',
             'ARBYS',
+            'CHINA BUFFET',
             'LOOPYS SALOON & GRILL',
             'TOPPERS PIZZA',
             'SUBWAY',

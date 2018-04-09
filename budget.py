@@ -5,7 +5,7 @@ import sys
 #import matplotlib.pyplot as plt
 
 def main():
-    df = pd.read_csv('./data/Export.csv', parse_dates=['Date'], 
+    df = pd.read_csv('./data/Export.csv', parse_dates=['Date'],
         index_col=['Date'], usecols=['Date', 'Description', 'Memo', 'Amount Debit', 'Amount Credit'])
     excludeWords = ['Check', 'Card', 'Withdrawal', 'External',
                     'to', 'Internet', '*', '-']
@@ -18,7 +18,7 @@ def main():
     df['Memo'] = df['Memo'].astype(str)
     df['Desc'] = df.Fixed_Desc + ' ' + df.Memo
 
-    df.to_csv('./data/test_output.csv')
+
     col_category = []
     for row in df.Desc:
         if row in 'Deposit nan':
@@ -79,15 +79,16 @@ def main():
             col_category.append('Taxes')
         else:
             col_category.append('uncategorized')
-    
+
     df['Category'] = col_category
     df['Amount Credit'].fillna(0, inplace=True)
     df['Amount Debit'].fillna(0, inplace=True)
     #df['Amount'] = df['Amount Credit'] if df['Amount Debit'].empty else df['Amount Credit']
     df['Amount'] = df['Amount Credit'] + df['Amount Debit']
-    print(df.groupby(['Category'])[['Amount']].apply(lambda x: np.sum(x)))
+    df.to_csv('./data/test_output.csv')
+    df.groupby(['Category'])[['Amount']].agg(['sum', 'mean']).to_csv('./data/output.csv')
     #print(df[['Amount']].apply(lambda x: np.mean(x)))
-    
+
 
 if __name__ == '__main__':
     main()
