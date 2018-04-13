@@ -2,21 +2,20 @@ import pandas as pd
 import numpy as np
 import category
 import sys
-#import matplotlib.pyplot as plt
 
 def main():
     df = pd.read_csv('./data/Export.csv', parse_dates=['Date'],
-        index_col=['Date'], usecols=['Date', 'Description', 'Memo', 'Amount Debit', 'Amount Credit'])
+                     usecols=['Date', 'Description', 'Memo', 'Amount Debit', 'Amount Credit'])
     excludeWords = ['Check', 'Card', 'Withdrawal', 'External',
                     'to', 'Internet', '*', '-']
     fixed_desc =[]
     for row in df.Description:
         fixed_desc.append(' '.join(i for i in row.split() if i not in excludeWords))
 
-    #print(type(df['Memo']))  # Series
     df['Fixed_Desc'] = fixed_desc
     df['Memo'] = df['Memo'].astype(str)
     df['Desc'] = df.Fixed_Desc + ' ' + df.Memo
+    df.index = df['Date']
 
 
     col_category = []
@@ -77,17 +76,25 @@ def main():
             col_category.append('Homeowner\'s Insurance')
         elif any(x in row for x in category.class_instance.TAXES):
             col_category.append('Taxes')
+        elif any(x in row for x in category.class_instance.MISC):
+            col_category.append('Misc')
         else:
             col_category.append('uncategorized')
 
     df['Category'] = col_category
     df['Amount Credit'].fillna(0, inplace=True)
     df['Amount Debit'].fillna(0, inplace=True)
-    #df['Amount'] = df['Amount Credit'] if df['Amount Debit'].empty else df['Amount Credit']
     df['Amount'] = df['Amount Credit'] + df['Amount Debit']
-    df.to_csv('./data/test_output.csv')
-    df.groupby(['Category'])[['Amount']].agg(['sum', 'mean']).to_csv('./data/output.csv')
-    #print(df[['Amount']].apply(lambda x: np.mean(x)))
+    df['Amount'] = df['Amount'].abs()
+
+    df['YearMonth'] = df.index.year.map(str) + df.index.month.map(str).str.zfill(2)
+    df.to_csv('./data/test_output.csv', columns=['Date', 'Desc', 'Amount', 'Category'])
+    grouped = df.groupby(['Category', df.YearMonth])
+    grouped['Amount'].fillna(0, inplace=True)
+    summed = grouped['Amount'].agg([np.sum])
+    pivoted = pd.pivot_table(summed, index='YearMonth', columns='Category', values='sum', fill_value=0)
+    pivoted.loc['Monthly Average'] = np.round(pivoted.mean(), decimals=2)
+    pivoted.to_csv('./data/output.csv')
 
 
 if __name__ == '__main__':
